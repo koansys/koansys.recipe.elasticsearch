@@ -127,7 +127,7 @@ class Recipe(zc.recipe.egg.Eggs):
         bin_dir = self.buildout['buildout']['bin-directory']
         command_line = []
 
-        command_line.append(os.path.join(bin_dir, 'mongod'))
+        command_line.append(os.path.join(bin_dir, 'elasticsearch'))
 
         for option_name, option_type in ELASTICSEARCH_OPTIONS.iteritems():
             if option_name not in self.options:
@@ -152,7 +152,7 @@ class Recipe(zc.recipe.egg.Eggs):
         if 'script_name' in self.options:
             script_name = self.options['script_name']
         else:
-            script_name = 'start_%s_elascticsearch.sh' % self.name
+            script_name = 'start_%s.sh' % self.name
         full_script_path = os.path.join(bin_dir, script_name)
 
         installed.append(full_script_path)
@@ -187,4 +187,4 @@ class Recipe(zc.recipe.egg.Eggs):
                            self.name)
         if os.path.isdir(dst):
             shutil.rmtree(dst)
-        return self.install_mongodb()
+        return self.install_elasticsearch()
