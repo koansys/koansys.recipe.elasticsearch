@@ -52,7 +52,7 @@ class Recipe(zc.recipe.egg.Eggs):
                              stderr=subprocess.PIPE)
         version_line=p.stderr.readline()
         logger.info("found: {0}".format(version_line))
-        assert re.search("1\.[6-7]\.[0-9]+", version_line), \
+        assert re.search(JAVA_VERSION, version_line) is not None, \
                "Java 1.6 or higher ust be installed"
         filename = self.options['url'].split(os.sep)[-1]
         dst = os.path.join(self.buildout['buildout']['parts-directory'],
