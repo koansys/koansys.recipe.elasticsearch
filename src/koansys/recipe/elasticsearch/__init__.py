@@ -17,7 +17,7 @@ ELASTICSEARCH_BINARIES = (
     'elasticsearch',
     )
 
-JAVA_VERSION="1\.[6-7]\.[0-9]+"
+JAVA_VERSION="1\.[6-8]\.[0-9]+"
 
 # value awaits abitrary string
 # flag test only for 'true'/'false defined in the buildout config
