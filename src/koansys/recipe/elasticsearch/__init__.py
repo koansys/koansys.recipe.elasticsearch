@@ -133,7 +133,7 @@ class Recipe(zc.recipe.egg.Eggs):
 
         command_line.append(os.path.join(bin_dir, 'elasticsearch'))
 
-        for option_name, option_type in ELASTICSEARCH_OPTIONS.iteritems():
+        for option_name, option_type in list(ELASTICSEARCH_OPTIONS.items()):
             if option_name not in self.options:
                 continue
             else:
@@ -161,15 +161,14 @@ class Recipe(zc.recipe.egg.Eggs):
 
         installed.append(full_script_path)
         script = open(full_script_path, 'w')
-        print >> script, "#!/bin/bash"
-        print >> script, ' '.join(command_line)
+        script.writelines(["#!/bin/bash", ' '.join(command_line)])
         script.close()
         os.chmod(full_script_path, stat.S_IRWXU)
 
     def _create_directory(self, option_name, directory_name):
         try:
             os.makedirs(directory_name)
-        except OSError, error:
+        except OSError as error:
             if error.errno == errno.EEXIST:
                 warn_string = "Directory (%s) for Option (%s) already exists"
                 logger.warn(warn_string % (directory_name, option_name))
