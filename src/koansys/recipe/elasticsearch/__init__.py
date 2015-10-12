@@ -52,6 +52,7 @@ class Recipe(zc.recipe.egg.Eggs):
         installed = []
         p = subprocess.Popen("java -version",
                              shell=True,
+                             universal_newlines=True,
                              stderr=subprocess.PIPE)
         version_line=p.stderr.readline()
         logger.info("found: {0}".format(version_line))
