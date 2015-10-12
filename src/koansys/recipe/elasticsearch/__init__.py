@@ -8,7 +8,10 @@ import shutil
 import stat
 import subprocess
 import tempfile
-import urllib
+try:
+    from urllib.request import urlretrieve
+except ImportError:
+    from urllib import urlretrieve
 import zc.recipe.egg
 
 logger = logging.getLogger(__name__)
@@ -63,7 +66,7 @@ class Recipe(zc.recipe.egg.Eggs):
         src = os.path.join(downloads_dir, filename)
         if not os.path.isfile(src):
             logger.info("downloading elasticsearch distribution...")
-            urllib.urlretrieve(self.options['url'], src)
+            urlretrieve(self.options['url'], src)
         else:
             logger.info("{0} already downloaded.".format(filename))
         extract_dir = tempfile.mkdtemp("buildout-" + self.name)
