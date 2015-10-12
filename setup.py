@@ -42,6 +42,11 @@ setup(
         'zc.buildout',
         'zc.recipe.egg',
         ],
+    extras_require={
+        'test': [
+            'manuel',
+        ],
+    },
     entry_points={'zc.buildout': ['default = koansys.recipe.elasticsearch:Recipe']},
     zip_safe=False,
     )
