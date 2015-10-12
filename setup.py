@@ -44,6 +44,7 @@ setup(
         ],
     extras_require={
         'test': [
+            'zope.testing',
             'manuel',
         ],
     },
