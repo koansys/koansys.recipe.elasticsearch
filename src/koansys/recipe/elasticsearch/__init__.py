@@ -8,7 +8,10 @@ import shutil
 import stat
 import subprocess
 import tempfile
-import urllib
+try:
+    from urllib.request import urlretrieve
+except ImportError:
+    from urllib import urlretrieve
 import zc.recipe.egg
 
 logger = logging.getLogger(__name__)
@@ -49,6 +52,7 @@ class Recipe(zc.recipe.egg.Eggs):
         installed = []
         p = subprocess.Popen("java -version",
                              shell=True,
+                             universal_newlines=True,
                              stderr=subprocess.PIPE)
         version_line=p.stderr.readline()
         logger.info("found: {0}".format(version_line))
@@ -63,7 +67,7 @@ class Recipe(zc.recipe.egg.Eggs):
         src = os.path.join(downloads_dir, filename)
         if not os.path.isfile(src):
             logger.info("downloading elasticsearch distribution...")
-            urllib.urlretrieve(self.options['url'], src)
+            urlretrieve(self.options['url'], src)
         else:
             logger.info("{0} already downloaded.".format(filename))
         extract_dir = tempfile.mkdtemp("buildout-" + self.name)
@@ -129,7 +133,7 @@ class Recipe(zc.recipe.egg.Eggs):
 
         command_line.append(os.path.join(bin_dir, 'elasticsearch'))
 
-        for option_name, option_type in ELASTICSEARCH_OPTIONS.iteritems():
+        for option_name, option_type in list(ELASTICSEARCH_OPTIONS.items()):
             if option_name not in self.options:
                 continue
             else:
@@ -157,15 +161,14 @@ class Recipe(zc.recipe.egg.Eggs):
 
         installed.append(full_script_path)
         script = open(full_script_path, 'w')
-        print >> script, "#!/bin/bash"
-        print >> script, ' '.join(command_line)
+        script.writelines(["#!/bin/bash", ' '.join(command_line)])
         script.close()
         os.chmod(full_script_path, stat.S_IRWXU)
 
     def _create_directory(self, option_name, directory_name):
         try:
             os.makedirs(directory_name)
-        except OSError, error:
+        except OSError as error:
             if error.errno == errno.EEXIST:
                 warn_string = "Directory (%s) for Option (%s) already exists"
                 logger.warn(warn_string % (directory_name, option_name))

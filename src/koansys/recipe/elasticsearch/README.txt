@@ -18,7 +18,7 @@ We will define a buildout template used by the recipe:
     ...
     ... [elasticsearch]
     ... recipe = koansys.recipe.elasticsearch
-    ... url = http://github.com/downloads/elasticsearch/elasticsearch/elasticsearch-0.13.0.tar.gz
+    ... url = https://github.com/elastic/elasticsearch/archive/v1.7.2.tar.gz
     ... """
 
 We'll start by creating a buildout:
@@ -51,7 +51,7 @@ buildout options. A more comprehensive recipe could be for example:
     ... parts = elasticsearch.sh
     ... [elasticsearch]
     ... recipe = koansys.recipe.elasticsearch
-    ... url = http://github.com/downloads/elasticsearch/elasticsearch/elasticsearch-0.13.0.tar.gz
+    ... url = https://github.com/elastic/elasticsearch/archive/v1.7.2.tar.gz
     ... script_name = start_es.sh
     ... quiet=true
     ... fork=true
